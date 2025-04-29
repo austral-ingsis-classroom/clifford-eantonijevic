@@ -1,16 +1,15 @@
-package edu.austral.ingsis.clifford;
+// src/main/java/edu/austral/ingsis/clifford/Directory.java
+package edu.austral.ingsis.clifford.clifford;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-public class Directory implements Component {
+/** A directory that may contain children. */
+public final class Directory implements Component {
   private final String name;
-  private final Directory parent;
+  private final Optional<Directory> parent;
   private final Map<String, Component> children = new LinkedHashMap<>();
 
-  public Directory(String name, Directory parent) {
+  public Directory(String name, Optional<Directory> parent) {
     this.name = name;
     this.parent = parent;
   }
@@ -21,7 +20,7 @@ public class Directory implements Component {
   }
 
   @Override
-  public Directory parent() {
+  public Optional<Directory> parent() {
     return parent;
   }
 
@@ -32,10 +31,10 @@ public class Directory implements Component {
 
   @Override
   public String path() {
-    if (parent == null) {
+    if (parent.isEmpty()) {
       return "/";
     }
-    String p = parent.path();
+    String p = parent.get().path();
     return p.equals("/") ? "/" + name : p + "/" + name;
   }
 

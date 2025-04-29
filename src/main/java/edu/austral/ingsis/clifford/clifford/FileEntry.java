@@ -1,10 +1,10 @@
-package edu.austral.ingsis.clifford;
+// src/main/java/edu/austral/ingsis/clifford/FileEntry.java
+package edu.austral.ingsis.clifford.clifford;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public record FileEntry(String name, Directory parent) implements Component {
+/** A leaf node (file) in the FS tree. */
+public record FileEntry(String name, Optional<Directory> parent) implements Component {
 
   @Override
   public boolean isDirectory() {
@@ -13,7 +13,7 @@ public record FileEntry(String name, Directory parent) implements Component {
 
   @Override
   public String path() {
-    String p = parent.path();
+    String p = parent.get().path();
     return p.equals("/") ? "/" + name : p + "/" + name;
   }
 

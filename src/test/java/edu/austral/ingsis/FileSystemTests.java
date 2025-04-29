@@ -3,6 +3,7 @@ package edu.austral.ingsis;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.austral.ingsis.clifford.clifford.CommandResult;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -12,13 +13,18 @@ public class FileSystemTests {
   private final FileSystemRunner runner = new FileSystemRunnerImpl();
 
   private void executeTest(List<Map.Entry<String, String>> commandsAndResults) {
-    final List<String> commands = commandsAndResults.stream().map(Map.Entry::getKey).toList();
-    final List<String> expectedResult =
-        commandsAndResults.stream().map(Map.Entry::getValue).toList();
+    // extract just the command lines
+    List<String> commands = commandsAndResults.stream().map(Map.Entry::getKey).toList();
+    // extract the expected messages
+    List<String> expectedMessages = commandsAndResults.stream().map(Map.Entry::getValue).toList();
 
-    final List<String> actualResult = runner.executeCommands(commands);
+    // run the commands, get back List<CommandResult>
+    List<CommandResult> results = runner.executeCommands(commands);
 
-    assertEquals(expectedResult, actualResult);
+    // pull out the messages for assertion
+    List<String> actualMessages = results.stream().map(CommandResult::getMessage).toList();
+
+    assertEquals(expectedMessages, actualMessages);
   }
 
   @Test
