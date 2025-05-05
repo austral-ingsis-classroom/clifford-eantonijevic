@@ -19,8 +19,8 @@ class FileSystemErrorTests {
   @Test
   void unknownCommand() {
     CommandResult res = runner.executeCommands(List.of("foo")).get(0);
-    assertFalse(res.isSuccess());
-    assertEquals("unknown command: foo", res.getMessage());
+    assertFalse(res.success());
+    assertEquals("unknown command: foo", res.message());
   }
 
   @Test
@@ -29,13 +29,13 @@ class FileSystemErrorTests {
     assertAll(
         () -> {
           CommandResult r0 = results.get(0);
-          assertFalse(r0.isSuccess());
-          assertEquals("cd: missing operand", r0.getMessage());
+          assertFalse(r0.success());
+          assertEquals("cd: missing operand", r0.message());
         },
         () -> {
           CommandResult r1 = results.get(1);
-          assertFalse(r1.isSuccess());
-          assertEquals("cd: too many operands", r1.getMessage());
+          assertFalse(r1.success());
+          assertEquals("cd: too many operands", r1.message());
         });
   }
 
@@ -45,18 +45,18 @@ class FileSystemErrorTests {
     assertAll(
         () -> {
           CommandResult r0 = results.get(0);
-          assertFalse(r0.isSuccess());
-          assertEquals("rm: missing operand", r0.getMessage());
+          assertFalse(r0.success());
+          assertEquals("rm: missing operand", r0.message());
         },
         () -> {
           CommandResult r1 = results.get(1);
-          assertFalse(r1.isSuccess());
-          assertEquals("rm: missing target for --recursive", r1.getMessage());
+          assertFalse(r1.success());
+          assertEquals("rm: missing target for --recursive", r1.message());
         },
         () -> {
           CommandResult r2 = results.get(2);
-          assertFalse(r2.isSuccess());
-          assertEquals("rm: too many operands", r2.getMessage());
+          assertFalse(r2.success());
+          assertEquals("rm: too many operands", r2.message());
         });
   }
 
@@ -66,13 +66,13 @@ class FileSystemErrorTests {
     assertAll(
         () -> {
           CommandResult r0 = results.get(0);
-          assertFalse(r0.isSuccess());
-          assertEquals("mkdir: missing operand", r0.getMessage());
+          assertFalse(r0.success());
+          assertEquals("mkdir: missing operand", r0.message());
         },
         () -> {
           CommandResult r1 = results.get(1);
-          assertFalse(r1.isSuccess());
-          assertEquals("mkdir: too many operands", r1.getMessage());
+          assertFalse(r1.success());
+          assertEquals("mkdir: too many operands", r1.message());
         });
   }
 
@@ -82,20 +82,20 @@ class FileSystemErrorTests {
     assertAll(
         () -> {
           CommandResult r0 = results.get(0);
-          assertFalse(r0.isSuccess());
-          assertEquals("touch: missing operand", r0.getMessage());
+          assertFalse(r0.success());
+          assertEquals("touch: missing operand", r0.message());
         },
         () -> {
           CommandResult r1 = results.get(1);
-          assertFalse(r1.isSuccess());
-          assertEquals("touch: too many operands", r1.getMessage());
+          assertFalse(r1.success());
+          assertEquals("touch: too many operands", r1.message());
         });
   }
 
   @Test
   void pwdFailures() {
     CommandResult res = runner.executeCommands(List.of("pwd now")).get(0);
-    assertFalse(res.isSuccess());
-    assertEquals("pwd: too many operands", res.getMessage());
+    assertFalse(res.success());
+    assertEquals("pwd: too many operands", res.message());
   }
 }

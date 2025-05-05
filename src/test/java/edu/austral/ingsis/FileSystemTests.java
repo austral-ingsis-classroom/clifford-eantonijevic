@@ -22,7 +22,7 @@ public class FileSystemTests {
     List<CommandResult> results = runner.executeCommands(commands);
 
     // pull out the messages for assertion
-    List<String> actualMessages = results.stream().map(CommandResult::getMessage).toList();
+    List<String> actualMessages = results.stream().map(CommandResult::message).toList();
 
     assertEquals(expectedMessages, actualMessages);
   }
