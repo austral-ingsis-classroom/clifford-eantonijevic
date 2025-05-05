@@ -1,5 +1,5 @@
 // src/main/java/edu/austral/ingsis/clifford/Directory.java
-package edu.austral.ingsis.clifford.clifford;
+package edu.austral.ingsis.clifford.engine;
 
 import java.util.*;
 

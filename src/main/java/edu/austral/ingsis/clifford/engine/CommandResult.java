@@ -1,4 +1,4 @@
-package edu.austral.ingsis.clifford.clifford;
+package edu.austral.ingsis.clifford.engine;
 
 /** The result of running a command: - success? - human-readable message. */
 public final class CommandResult {

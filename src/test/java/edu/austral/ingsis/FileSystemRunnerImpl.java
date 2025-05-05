@@ -1,48 +1,52 @@
-// src/main/java/edu/austral/ingsis/FileSystemRunnerImpl.java
 package edu.austral.ingsis;
 
 import static java.util.Map.entry;
 
-import edu.austral.ingsis.clifford.clifford.CommandResult;
-import edu.austral.ingsis.clifford.clifford.FileSystem;
-import edu.austral.ingsis.clifford.clifford.FsException;
 import edu.austral.ingsis.clifford.commands.*;
+import edu.austral.ingsis.clifford.engine.CommandResult;
+import edu.austral.ingsis.clifford.engine.FileSystem;
+import edu.austral.ingsis.clifford.engine.FsException;
 import java.util.*;
 
 public class FileSystemRunnerImpl implements FileSystemRunner {
   private final FileSystem fs = new FileSystem();
-  private final Map<String, Command> cmds;
+  private final Map<String, Command> commands;
 
+  /** No-arg ctor for existing tests */
   public FileSystemRunnerImpl() {
-    cmds =
-        Map.ofEntries(
-            entry("pwd", new PwdCommand()),
-            entry("ls", new LsCommand()),
-            entry("mkdir", new MkdirCommand()),
-            entry("touch", new TouchCommand()),
-            entry("cd", new CdCommand()),
-            entry("rm", new RmCommand()));
+    this(defaultCommands());
+  }
+
+  /** Main ctor, allows custom command registrations */
+  public FileSystemRunnerImpl(Map<String, Command> commands) {
+    this.commands = Map.copyOf(commands);
   }
 
   @Override
   public List<CommandResult> executeCommands(List<String> lines) {
-    List<CommandResult> out = new ArrayList<>();
-    for (String line : lines) {
-      out.add(executeOne(line));
-    }
-    return out;
+    return lines.stream().map(this::executeLine).toList();
   }
 
-  private CommandResult executeOne(String line) {
-    String[] tok = line.trim().split("\\s+");
-    Command c = cmds.get(tok[0]);
+  private CommandResult executeLine(String line) {
+    ParsedCommand pc = ParsedCommand.parse(line);
+    Command c = commands.get(pc.name());
     if (c == null) {
-      return CommandResult.failure("unknown command");
+      return CommandResult.failure("unknown command: " + pc.name());
     }
     try {
-      return c.execute(tok, fs);
+      return c.execute(pc, fs);
     } catch (FsException e) {
       return CommandResult.failure(e.getMessage());
     }
+  }
+
+  private static Map<String, Command> defaultCommands() {
+    return Map.ofEntries(
+        entry("pwd", new PwdCommand()),
+        entry("ls", new LsCommand()),
+        entry("mkdir", new MkdirCommand()),
+        entry("touch", new TouchCommand()),
+        entry("cd", new CdCommand()),
+        entry("rm", new RmCommand()));
   }
 }

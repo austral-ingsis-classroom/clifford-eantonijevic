@@ -1,7 +1,7 @@
 package edu.austral.ingsis.clifford.commands;
 
-import edu.austral.ingsis.clifford.clifford.CommandResult;
-import edu.austral.ingsis.clifford.clifford.FileSystem;
+import edu.austral.ingsis.clifford.engine.CommandResult;
+import edu.austral.ingsis.clifford.engine.FileSystem;
 
 public final class PwdCommand implements Command {
   @Override
@@ -10,7 +10,10 @@ public final class PwdCommand implements Command {
   }
 
   @Override
-  public CommandResult execute(String[] args, FileSystem fs) {
+  public CommandResult execute(ParsedCommand cmd, FileSystem fs) {
+    if (!cmd.operands().isEmpty()) {
+      return CommandResult.failure("pwd: too many operands");
+    }
     String msg = fs.pwd();
     return CommandResult.success(msg);
   }

@@ -1,16 +1,13 @@
-// src/main/java/edu/austral/ingsis/Command.java
 package edu.austral.ingsis.clifford.commands;
 
-import edu.austral.ingsis.clifford.clifford.CommandResult;
-import edu.austral.ingsis.clifford.clifford.FileSystem;
+import edu.austral.ingsis.clifford.engine.CommandResult;
+import edu.austral.ingsis.clifford.engine.FileSystem;
 
-/** A single shell‐command. */
 public sealed interface Command
-    permits PwdCommand, LsCommand, MkdirCommand, TouchCommand, CdCommand, RmCommand {
+    permits CdCommand, LsCommand, MkdirCommand, PwdCommand, RmCommand, TouchCommand {
 
-  /** e.g. "ls", "cd", ... */
   String name();
 
-  /** run it, returning a rich result. */
-  CommandResult execute(String[] args, FileSystem fs);
+  /** Now takes a ParsedCommand instead of raw String[]. */
+  CommandResult execute(ParsedCommand cmd, FileSystem fs);
 }

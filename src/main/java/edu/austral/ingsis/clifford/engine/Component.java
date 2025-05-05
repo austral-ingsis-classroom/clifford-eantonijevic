@@ -1,5 +1,5 @@
 // src/main/java/edu/austral/ingsis/clifford/Component.java
-package edu.austral.ingsis.clifford.clifford;
+package edu.austral.ingsis.clifford.engine;
 
 import java.util.List;
 import java.util.Optional;
