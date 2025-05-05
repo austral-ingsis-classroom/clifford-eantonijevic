@@ -1,10 +1,7 @@
 package edu.austral.ingsis.clifford.engine;
 
-/**
- * Immutable result of running a command.
- */
-public record CommandResult(boolean success,
-                            String message) {
+/** Immutable result of running a command. */
+public record CommandResult(boolean success, String message) {
 
   public static CommandResult success(String msg) {
     return new CommandResult(true, msg);

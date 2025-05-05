@@ -1,7 +1,5 @@
 package edu.austral.ingsis;
 
-import static java.util.Map.entry;
-
 import edu.austral.ingsis.clifford.commands.*;
 import edu.austral.ingsis.clifford.engine.CommandResult;
 import edu.austral.ingsis.clifford.engine.FileSystem;
@@ -23,11 +21,7 @@ public final class FileSystemRunnerImpl implements FileSystemRunner {
   @Override
   public List<CommandResult> executeCommands(List<String> lines) {
     // wrap in unmodifiableList
-    return Collections.unmodifiableList(
-      lines.stream()
-        .map(this::executeLine)
-        .toList()
-    );
+    return Collections.unmodifiableList(lines.stream().map(this::executeLine).toList());
   }
 
   private CommandResult executeLine(String line) {
@@ -45,12 +39,11 @@ public final class FileSystemRunnerImpl implements FileSystemRunner {
 
   private static Map<String, Command> defaultCommands() {
     return Map.of(
-      "pwd",   new PwdCommand(),
-      "ls",    new LsCommand(),
-      "mkdir", new MkdirCommand(),
-      "touch", new TouchCommand(),
-      "cd",    new CdCommand(),
-      "rm",    new RmCommand()
-    );
+        "pwd", new PwdCommand(),
+        "ls", new LsCommand(),
+        "mkdir", new MkdirCommand(),
+        "touch", new TouchCommand(),
+        "cd", new CdCommand(),
+        "rm", new RmCommand());
   }
 }
